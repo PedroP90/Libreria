@@ -1,37 +1,43 @@
-import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsIn, IsNumber, IsPositive, IsString, Length, MinLength } from "class-validator";
+
 
 export class CreateLibroDto {
+
+    @IsString()
+    isbn: string;
+
+    @IsString()
+    @MinLength(3)
+    title: string;
+
+    @IsNumber()
+    @IsPositive()
+    pageCount: number;
+
+    @IsString()
+    publishedDate?: string;
+
+    @IsString()
+    thumbnailUrl?: string;
+
+    @IsString()
+    shortDescription?: string;
+
+    @IsString()
+    longDescription?: string;
+
     @IsString()
     @MinLength(1)
-    id: String;
-
-    @IsString()
-    title: String;
-
-    @IsString()
-    isbn: String;
+    @IsIn(['PUBLISH', 'UNPUBLISH'])
+    status: string;
 
     @IsNumber()
-    pageCount: Number;
+    @IsPositive()
+    precio: number;
 
     @IsString()
-    publishedDate: String;
+    @MinLength(1)
+    autor?: string;
 
-    @IsString()
-    @IsOptional()
-    thumbnailUrl: String;
 
-    @IsString()
-    @IsOptional()
-    shortDescription: String;
-
-    @IsString()
-    @IsOptional()
-    longDescription: String;
-
-    @IsString()
-    status: String;
-
-    @IsNumber()
-    precio: Number;
 }

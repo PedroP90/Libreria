@@ -20,7 +20,7 @@ export class AutoresController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.autoresService.findOne(+id);
+    return this.autoresService.findOne(id);
   }
 
   @Patch(':id')

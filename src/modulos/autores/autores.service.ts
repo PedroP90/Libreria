@@ -24,12 +24,15 @@ export class AutoresService {
       // el objeto (createAutoreDto) del controlador
       // lo prepara en el objeto (autor) para ser INSERTADO en el SGBD
       const autor = this.autorRepository.create(createAutoreDto);
+      
 
       // lanza la petición de inserción a la BD
       // Mapea Objeto autor <--> registro autor
       // insert into Autor(isbb, nombre) values ("1", "Glenn Smith")
       // aplica la librería de bd instalada en el proyecto --> librería de postgres pg
       await this.autorRepository.save(autor);
+      
+
       return {
         msg: 'Registro Insertado',
         data: autor,
@@ -45,8 +48,13 @@ export class AutoresService {
   }
 
   // Buscar producto por su id
-  findOne(id: number) {
-    return `This action returns a #${id} autore`;
+  findOne(nif: string) {
+    const autor = this.autorRepository.findOne({
+      where:{
+        nif
+      }
+    });
+    return autor;
   }
 
   @Patch()

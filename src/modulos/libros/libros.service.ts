@@ -4,34 +4,30 @@ import { UpdateLibroDto } from './dto/update-libro.dto';
 import { Libro } from './entities/libro.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AutoresService } from '../autores/autores.service';
 
 @Injectable()
 export class LibrosService {
-  logger: any;
-
+  
   constructor(
     @InjectRepository(Libro)
-    private readonly libroRepository: Repository<Libro>
+    private readonly libroRepository: Repository<Libro>,
+    private readonly autoresService: AutoresService
   ){
     
   }
 
-  @Post()
+ 
   async create(createLibroDto: CreateLibroDto) {
     try{
-      // el objeto (createAutoreDto) del controlador
-      // lo prepara en el objeto (autor) para ser INSERTADO en el SGBD
-      //console.log(createLibroDto);
-      const libro = this.libroRepository.create(createLibroDto);
-
-      // lanza la petición de inserción a la BD
-      // Mapea Objeto autor <--> registro autor
-      // insert into Autor(isbb, nombre) values ("1", "Glenn Smith")
-      // aplica la librería de bd instalada en el proyecto --> librería de postgres pg
+      const {autor, ...campos } = createLibroDto;
+      const libro = this.libroRepository.create({...campos});
+      const autorobj = await this.autoresService.findOne(autor);
+      libro.autor = autorobj; // dirección del objeto autor relacionado con libros
       
       await this.libroRepository.save(libro);
       return {
-        msg: 'Registro Insertado',
+        msg: 'Libro correctamente insertado',
         data: libro,
         status:200
       }

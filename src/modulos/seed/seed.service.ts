@@ -44,7 +44,7 @@ export class SeedService {
     seedLibros.forEach( (libro: CreateLibroDto) => {
     insertPromisesLibros.push(this.librosService.create(libro));
     })
-    //const results = await Promise.all(insertPromisesLibros);
+    const results = await Promise.all(insertPromisesLibros);
     return true;
   }
   

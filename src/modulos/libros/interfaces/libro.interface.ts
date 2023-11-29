@@ -3,6 +3,8 @@ export interface Libro {
 
     id: String;
 
+    autor_id: String;
+
     title: String;
 
     isbn: String;
